@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A fully responsive image compression tool that allows users to optimize images dynamically. Select compression levels and download optimized images easily.">
+  <meta name="keywords" content="image compression, optimize images, responsive tool, image optimizer, free tool">
+  <meta name="author" content="Your Name">
+  <title>Image Compression Tool - Optimize Images Online</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    #tool-section {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      margin: 10px 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #result-section img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 20px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+    }
+
+    #download-link {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    #download-link:hover {
+      background-color: #0056b3;
+    }
+
+    .adsense-placeholder {
+      text-align: center;
+      margin: 20px 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+      border: 1px dashed #ccc;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #333;
+      color: white;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Image Compression Tool</h1>
+    <p>Optimize your images dynamically with adjustable compression levels.</p>
+  </header>
+
+  <main>
+    <!-- Advertisement Section -->
+    <section id="ad-section">
+      <div class="adsense-placeholder">
+        <!-- Replace with your Google AdSense Ad Unit ID -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="YYYYYYYYYY"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <p>Advertisement</p>
+      </div>
+    </section>
+
+    <!-- Image Compression Tool -->
+    <section id="tool-section">
+      <h2>Upload and Compress Your Image</h2>
+      <form id="compression-form">
+        <input type="file" id="image-upload" accept="image/*" required>
+        <label for="compression-level">Select Compression Level:</label>
+        <input type="range" id="compression-level" min="1" max="100" value="50">
+        <span id="level-value">50%</span>
+        <button type="submit">Compress Image</button>
+      </form>
+      <div id="result-section">
+        <h3>Compressed Image Preview</h3>
+        <img id="compressed-image" alt="Compressed Image Preview" style="display:none;">
+        <a id="download-link" style="display:none;">Download Compressed Image</a>
+      </div>
+    </section>
+
+    <!-- Another Advertisement Section -->
+    <section id="ad-section-bottom">
+      <div class="adsense-placeholder">
+        <!-- Replace with your Google AdSense Ad Unit ID -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="ZZZZZZZZZZ"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <p>Advertisement</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Image Compression Tool. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('compression-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const fileInput = document.getElementById('image-upload');
+      const compressionLevel = document.getElementById('compression-level').value;
+      const compressedImage = document.getElementById('compressed-image');
+      const downloadLink = document.getElementById('download-link');
+
+      if (!fileInput.files.length) {
+        alert('Please upload an image.');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        const img = new Image();
+        img.src = event.target.result;
+
+        img.onload = function () {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+
+          // Calculate new dimensions based on compression level
+          const scale = compressionLevel / 100;
+          canvas.width = img.width * scale;
+          canvas.height = img.height * scale;
+
+          // Draw the image on the canvas
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+          // Convert canvas to compressed image
+          canvas.toBlob(function (blob) {
+            const url = URL.createObjectURL(blob);
+            compressedImage.src = url;
+            compressedImage.style.display = 'block';
+
+            // Create download link
+            downloadLink.href = url;
+            downloadLink.download = 'compressed-' + file.name;
+            downloadLink.style.display = 'inline-block';
+            downloadLink.textContent = 'Download Compressed Image';
+          }, file.type, compressionLevel / 100);
+        };
+      };
+
+      reader.readAsDataURL(file);
+    });
+
+    // Update compression level display
+    document.getElementById('compression-level').addEventListener('input', function () {
+      document.getElementById('level-value').textContent = this.value + '%';
+    });
+  </script>
+</body>
+</html>
