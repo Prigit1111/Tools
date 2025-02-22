@@ -3,10 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pdf Converter Tool</title>
+  <title>PDF to Word Converter</title>
 </head>
 <body>
-  <h1>PDF Converter</h1>
-  <p>Convert PDF files into other formats dynamically.</p>
+  <h1>PDF to Word</h1>
+  <p>Convert PDF files to editable Word documents in seconds.</p>
+  
+  <!-- File Upload Form -->
+  <form action="/convert" method="POST" enctype="multipart/form-data">
+    <label for="file-upload">Upload your PDF file:</label><br>
+    <input type="file" id="file-upload" name="file" accept=".pdf"><br><br>
+    <button type="submit">Convert to Word</button>
+  </form>
 </body>
 </html>
